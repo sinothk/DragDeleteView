@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ((ListView) findViewById(R.id.list)).setAdapter(new MyAdapter(this));
-
     }
 
     class MyAdapter extends BaseAdapter {
