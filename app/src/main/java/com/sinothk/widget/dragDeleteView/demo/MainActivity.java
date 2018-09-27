@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sinothk.widget.dragDeleteView.DragDeleteView;
 
@@ -25,7 +26,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // 设置连接线的颜色
-//        ((DemoTextView)findViewById(R.id.text)).setConnectedColor(Color.GREEN);
+        DragDeleteView dragDeleteView = (DragDeleteView) findViewById(R.id.text);
+        dragDeleteView.setOnDragListener(new DragDeleteView.OnDragListener() {
+            @Override
+            public void OnDragCompleted() {
+                Toast.makeText(MainActivity.this, "OnDragCompleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         datas = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
@@ -59,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
@@ -82,6 +90,14 @@ public class MainActivity extends AppCompatActivity {
                 holder.dragDeleteView.setText(String.valueOf(position));
                 holder.dragDeleteView.setVisibility(View.VISIBLE);
             }
+
+
+            holder.dragDeleteView.setOnDragListener(new DragDeleteView.OnDragListener() {
+                @Override
+                public void OnDragCompleted() {
+                    Toast.makeText(MainActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
+                }
+            });
 
             return convertView;
         }

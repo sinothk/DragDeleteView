@@ -33,6 +33,7 @@ public class DragDeleteView extends AppCompatTextView {
     private float pX = 0;
     private float pY = 0;
     private static int connectedColor = Color.RED;
+    private OnDragListener onDragListener;
 
     public DragDeleteView(Context context) {
         super(context);
@@ -53,13 +54,6 @@ public class DragDeleteView extends AppCompatTextView {
     }
 
 
-    //    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//    public DragDeleteView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-//        super(context, attrs, defStyleAttr, defStyleRes);
-//        mContext = context;
-//        init();
-//    }
-
     private void init() {
         decorView = (ViewGroup) ((Activity) mContext).getWindow().getDecorView();
         decorView.setOnTouchListener(new OnTouchListener() {
@@ -68,6 +62,33 @@ public class DragDeleteView extends AppCompatTextView {
                 return false;
             }
         });
+    }
+
+    /**
+     * 设置拖动时与原位置连接的线条的颜色
+     *
+     * @param connectedColor 颜色
+     */
+    public void setConnectedColor(int connectedColor) {
+        DragDeleteView.connectedColor = connectedColor;
+    }
+
+    /**
+     * 设置数量
+     *
+     * @param numberStr
+     */
+    public void setNumber(String numberStr) {
+        setText(numberStr);
+    }
+
+    /**
+     * 设置拖拽监听器
+     *
+     * @param onDragListener
+     */
+    public void setOnDragListener(OnDragListener onDragListener) {
+        this.onDragListener = onDragListener;
     }
 
     @Override
@@ -114,16 +135,21 @@ public class DragDeleteView extends AppCompatTextView {
                         if (counterfeitView != null) {
                             decorView.removeView(counterfeitView);
                         }
-                        final ImageView imageView = new ImageView(getContext());
+
+                        if (onDragListener != null) {
+                            onDragListener.OnDragCompleted();
+                        }
+
+//                        final ImageView imageView = new ImageView(getContext());
 //                        imageView.setImageResource(R.drawable.clean_anim);
-                        decorView.addView(imageView, new ViewGroup.LayoutParams(-2, -2));
-                        imageView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                imageView.setX(event.getRawX() - pX + getWidth() / 2 - imageView.getWidth() / 2);
-                                imageView.setY(event.getRawY() - pY + getHeight() / 2 - imageView.getHeight() / 2);
-                            }
-                        });
+//                        decorView.addView(imageView, new ViewGroup.LayoutParams(-2, -2));
+//                        imageView.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                imageView.setX(event.getRawX() - pX + getWidth() / 2 - imageView.getWidth() / 2);
+//                                imageView.setY(event.getRawY() - pY + getHeight() / 2 - imageView.getHeight() / 2);
+//                            }
+//                        });
 //                        AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
 //                        animationDrawable.start();
                     }
@@ -163,15 +189,6 @@ public class DragDeleteView extends AppCompatTextView {
             target = parent;
         }
 
-    }
-
-    /**
-     * 设置拖动时与原位置连接的线条的颜色
-     *
-     * @param connectedColor 颜色
-     */
-    public void setConnectedColor(int connectedColor) {
-        DragDeleteView.connectedColor = connectedColor;
     }
 
     static class CircleAndPathView extends View {
@@ -251,4 +268,8 @@ public class DragDeleteView extends AppCompatTextView {
         }
     }
 
+
+    public interface OnDragListener {
+        void OnDragCompleted();
+    }
 }
