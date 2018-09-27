@@ -115,7 +115,7 @@ public class DragDeleteView extends AppCompatTextView {
                             decorView.removeView(counterfeitView);
                         }
                         final ImageView imageView = new ImageView(getContext());
-                        imageView.setImageResource(R.drawable.clean_anim);
+//                        imageView.setImageResource(R.drawable.clean_anim);
                         decorView.addView(imageView, new ViewGroup.LayoutParams(-2, -2));
                         imageView.post(new Runnable() {
                             @Override
@@ -124,8 +124,8 @@ public class DragDeleteView extends AppCompatTextView {
                                 imageView.setY(event.getRawY() - pY + getHeight() / 2 - imageView.getHeight() / 2);
                             }
                         });
-                        AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
-                        animationDrawable.start();
+//                        AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
+//                        animationDrawable.start();
                     }
                 }
                 parentView.requestDisallowInterceptTouchEvent(false);

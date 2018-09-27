@@ -77,7 +77,12 @@ public class MainActivity extends AppCompatActivity {
 
             holder.textView.setText(datas.get(position));
 
-            holder.dragDeleteView.setText(String.valueOf(position));
+            if (position == datas.size() - 1) {
+                holder.dragDeleteView.setVisibility(View.GONE);
+            } else {
+                holder.dragDeleteView.setText(String.valueOf(position));
+                holder.dragDeleteView.setVisibility(View.VISIBLE);
+            }
 
             return convertView;
         }
